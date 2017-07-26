@@ -24,6 +24,16 @@ namespace HelloWorld.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Results()
+        {
+            var serviceUrl = Environment.GetEnvironmentVariable("cacheservice");
+            var response = await httpClient.GetAsync(string.Format("{0}/{1}", serviceUrl, "getpollresults"));
+
+            var data = await response.Content.ReadAsStringAsync();
+
+            return View();
+        }
+
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
@@ -45,7 +55,7 @@ namespace HelloWorld.Controllers
 
             Response.Cookies.Append("submitted","true");
             var serviceUrl = Environment.GetEnvironmentVariable("cacheservice");
-            await httpClient.GetAsync(string.Format("{0}/{1}",serviceUrl,data.poll));
+            await httpClient.GetAsync(string.Format("{0}/{1}/{2}",serviceUrl, "submitpoll", data.poll));
             return Json(new { data = data.poll});
         }
     }

@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:17733/",
+      "applicationUrl": "http://localhost:54600/",
       "sslPort": 0
     }
   },
@@ -11,17 +11,17 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "api/values",
       "environmentVariables": {
-        "cacheservice": "http://localhost:5100/api/values",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "HelloWorld": {
+    "CacheService": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000",
+      "launchUrl": "http://localhost:5100/api/values",
       "environmentVariables": {
-        "cacheservice": "http://localhost:8081/api/values",
+        "ASPNETCORE_URLS": "http://*:8081",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
