@@ -10,6 +10,17 @@
     padding-right: 15px;
 }
 
+.lablediv{
+    width: 50%;
+    float: left;
+    height: 200px;
+    padding: 20px 10px;
+}
+
+.PollLable{
+    font-size:100px;
+}
+
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,

@@ -31,5 +31,16 @@ namespace HelloWorld.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public JsonResult PollSubmit([FromBody] input data)
+        {
+            return Json(new { data = "sucess" });
+        }
+    }
+
+    public class input
+    {
+        public string poll;
     }
 }
