@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,8 +24,10 @@ namespace HelloWorld
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            HttpClient httpClient = new HttpClient();
             // Add framework services.
             services.AddMvc();
+            services.AddSingleton(httpClient);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

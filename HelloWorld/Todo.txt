@@ -1,0 +1,8 @@
+retry play with docker demo
+copy docker file from container
+check ASPNETCORE_ENVIRONEMNT variable
+
+Cookie to prevent dup submission.
+
+complete results page
+
