@@ -32,18 +32,32 @@ namespace CacheService.Controllers
         }
 
         [HttpGet("getpollresults")]
-        public List<PollResult> getPollData(string poll)
+        public PollResult getPollData(string poll)
         {
-            List<PollResult> results = new List<Controllers.PollResult>();
-            foreach(var key in data.polldata.Keys)
+            PollResult result = new PollResult()
             {
-                results.Add(new PollResult()
+                yes = 0,
+                no = 0
+            };
+
+            try
+            {
+                if (data.polldata.ContainsKey("YES"))
                 {
-                    category = key,
-                    count = data.polldata[key]
-                });
+                    result.yes = data.polldata["YES"];
+                }
+
+                if (data.polldata.ContainsKey("NO"))
+                {
+                    result.no = data.polldata["NO"];
+                }
             }
-            return results;
+            catch (Exception ex)
+            {
+
+            }
+
+            return result;
         }
 
         // GET api/values/5
@@ -74,7 +88,7 @@ namespace CacheService.Controllers
 
     public class PollResult
     {
-        public string category;
-        public int count;
+        public int yes;
+        public int no;
     }
 }

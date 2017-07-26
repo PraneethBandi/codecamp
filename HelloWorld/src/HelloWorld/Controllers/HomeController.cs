@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace HelloWorld.Controllers
 {
@@ -13,7 +16,7 @@ namespace HelloWorld.Controllers
         }
         public IActionResult Index()
         {
-            Response.Cookies.Append("submitted","false");
+            //Response.Cookies.Append("submitted","false");
             return View();
         }
 
@@ -30,8 +33,15 @@ namespace HelloWorld.Controllers
             var response = await httpClient.GetAsync(string.Format("{0}/{1}", serviceUrl, "getpollresults"));
 
             var data = await response.Content.ReadAsStringAsync();
+            object content = JsonConvert.DeserializeObject(data);
+            
+            float yes = Convert.ToInt32(((Newtonsoft.Json.Linq.JObject)(content)).GetValue("yes").ToString());
+            float no = Convert.ToInt32(((Newtonsoft.Json.Linq.JObject)(content)).GetValue("no").ToString());
 
-            return View();
+            ViewData["YesPercent"] = (yes / (yes + no)) * 100;
+            ViewData["NoPercent"] = (no / (yes + no)) * 100;
+            ViewData["total"] = Convert.ToInt32(yes + no);
+            return View("Results");
         }
 
         public IActionResult Contact()
