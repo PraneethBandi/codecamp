@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +7,13 @@ namespace HelloWorld.Controllers
 {
     public class HomeController : Controller
     {
+        HttpClient httpClient;
+        public HomeController(HttpClient hClient){
+            httpClient = hClient;
+        }
         public IActionResult Index()
         {
+            Response.Cookies.Append("submitted","false");
             return View();
         }
 
@@ -33,9 +37,16 @@ namespace HelloWorld.Controllers
         }
 
         [HttpPost]
-        public JsonResult PollSubmit([FromBody] input data)
+        public async Task<JsonResult> PollSubmit([FromBody] input data)
         {
-            return Json(new { data = "sucess" });
+            if(Request.Cookies.ContainsKey("submitted") && Request.Cookies["submitted"] == "true"){
+                return Json(new { data = "NOOOOOOOOOOOOOO DUPES!!!!!"});
+            }
+
+            Response.Cookies.Append("submitted","true");
+            var serviceUrl = Environment.GetEnvironmentVariable("cacheservice");
+            await httpClient.GetAsync(string.Format("{0}/{1}",serviceUrl,data.poll));
+            return Json(new { data = data.poll});
         }
     }
 
